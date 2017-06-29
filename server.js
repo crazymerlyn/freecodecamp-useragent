@@ -47,7 +47,7 @@ app.get('/:time', function(req, res) {
   } else {
     date = new Date(time);
   }
-  if (date) {
+  if (date != "Invalid Date") {
     res.json({
       unix: date.getTime() / 1000,
       natural: strftime("%B %d, %Y", date)
