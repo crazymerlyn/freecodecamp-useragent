@@ -38,6 +38,24 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
 
+app.get('/:time', function(req, res) {
+  var time = req.params.time;
+  var date;
+  if (+time + "" === )
+  var date = new Date(req.params.time * 1000);
+  if (date) {
+    res.json({
+      unix: date.getTime(),
+      natural: date.toDateString()
+    });
+  } else {
+    res.json({
+      unix: null,
+      natural: null
+    });
+  }
+})
+
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
   res.status(404);
