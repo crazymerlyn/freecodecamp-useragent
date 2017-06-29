@@ -7,7 +7,6 @@
 
 var fs = require('fs');
 var express = require('express');
-var useragent = require('useragent');
 var app = express();
 
 if (!process.env.DISABLE_XORIGIN) {
@@ -43,7 +42,7 @@ app.get('/api/whoami', function(req, res) {
   res.json({
     ipaddress: req.headers['x-forwarded-for'].split(',')[0] || req.ip,
     language: req.headers['accept-language'].split(',')[0],
-    software: useragent.parse(req.headers['user-agent']
+    software: req.headers['user-agent'].split(')')[0].split('(')[1]
   });
 })
 
