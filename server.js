@@ -8,6 +8,7 @@
 var fs = require('fs');
 var express = require('express');
 var app = express();
+var strftime = require('strftime')
 
 if (!process.env.DISABLE_XORIGIN) {
   app.use(function(req, res, next) {
@@ -41,12 +42,15 @@ app.route('/')
 app.get('/:time', function(req, res) {
   var time = req.params.time;
   var date;
-  if (+time + "" === )
-  var date = new Date(req.params.time * 1000);
+  if (+time + "" === time) {
+    var date = new Date(time * 1000);
+  } else {
+    date = new Date(time);
+  }
   if (date) {
     res.json({
-      unix: date.getTime(),
-      natural: date.toDateString()
+      unix: date.getTime() / 1000,
+      natural: strftime("%B %d, %Y", date)
     });
   } else {
     res.json({
