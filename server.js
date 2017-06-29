@@ -8,7 +8,6 @@
 var fs = require('fs');
 var express = require('express');
 var app = express();
-var strftime = require('strftime')
 
 if (!process.env.DISABLE_XORIGIN) {
   app.use(function(req, res, next) {
@@ -39,25 +38,12 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
 
-app.get('/:time', function(req, res) {
-  var time = req.params.time;
-  var date;
-  if (+time + "" === time) {
-    var date = new Date(time * 1000);
-  } else {
-    date = new Date(time);
-  }
-  if (date != "Invalid Date") {
-    res.json({
-      unix: date.getTime() / 1000,
-      natural: strftime("%B %d, %Y", date)
-    });
-  } else {
-    res.json({
-      unix: null,
-      natural: null
-    });
-  }
+app.get('/api/whoami', function(req, res) {
+  res.json({
+    ipaddress: req.headers['x-forwarded-for'].split(',')[0] || req.ip,
+    language: req.headers['accept-language'].split(',')[0],
+    abc: "def"
+  });
 })
 
 // Respond not found to all the wrong routes
